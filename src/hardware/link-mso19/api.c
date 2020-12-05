@@ -279,7 +279,7 @@ static GSList* scan_handle_port(GSList *devices, struct sp_port *port)
 	for (i = 0; i < 8; i++) {
 		char channel_name[2] = {'0' + i};
 		cg->channels = g_slist_append(cg->channels,
-				sr_channel_new(sdi, i, SR_CHANNEL_LOGIC, TRUE, channel_name));
+				sr_channel_new(sdi, ch_to_idx(i), SR_CHANNEL_LOGIC, TRUE, channel_name));
 	}
 	sdi->channel_groups = g_slist_append(sdi->channel_groups, cg);
 

@@ -40,6 +40,10 @@
 #define cg_is_digital(cg) (cg && cg->name[0] == 'L')
 #define cg_is_analog(cg) (cg && cg->name[0] == 'D')
 
+/* start index at one to match channel colors of pulseview */
+#define ch_to_idx(ch)	    ((ch) + 1)
+#define idx_to_ch(idx)	    ((idx) - 1)
+
 /* Structure for the pattern generator state */
 struct mso_patgen {
 	/* Pattern generator clock config */

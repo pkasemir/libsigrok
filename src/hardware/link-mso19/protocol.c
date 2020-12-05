@@ -371,7 +371,7 @@ SR_PRIV int mso_receive_data(int fd, int revents, void *cb_data)
 		return TRUE;
 
 	/* do the conversion */
-	uint8_t logic_out[MSO_NUM_SAMPLES];
+	uint16_t logic_out[MSO_NUM_SAMPLES];
 	float analog_out[MSO_NUM_SAMPLES];
 	for (i = 0; i < MSO_NUM_SAMPLES; i++) {
 		analog_out[i] = (devc->buffer[i * 3] & 0x3f) |
@@ -381,6 +381,8 @@ SR_PRIV int mso_receive_data(int fd, int revents, void *cb_data)
 			- devc->dso_offset_adjusted;
 		logic_out[i] = ((devc->buffer[i * 3 + 1] & 0x30) >> 4) |
 		    ((devc->buffer[i * 3 + 2] & 0x3f) << 2);
+		/* shift by one to match channel colors of pulseview */
+		logic_out[i] <<= 1;
 	}
 
 	if (devc->ctltrig_pos & TRIG_POS_IS_NEGATIVE) {
@@ -466,7 +468,7 @@ SR_PRIV int mso_configure_channels(const struct sr_dev_inst *sdi)
 			if (!match->channel->enabled)
 				/* Ignore disabled channels with a trigger. */
 				continue;
-			channel_bit = 1 << match->channel->index;
+			channel_bit = 1 << idx_to_ch(match->channel->index);
 			devc->la_trigger_mask &= ~channel_bit;
 			if (match->match == SR_TRIGGER_ONE)
 				devc->la_trigger |= channel_bit;
