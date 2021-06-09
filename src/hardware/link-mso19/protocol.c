@@ -458,11 +458,11 @@ SR_PRIV int mso_configure_channels(const struct sr_dev_inst *sdi)
 	devc->la_trigger_mask = 0xFF;	//the mask for the LA_TRIGGER (bits set to 0 matter, those set to 1 are ignored).
 	devc->la_trigger = 0x00;	//The value of the LA byte that generates a trigger event (in that mode).
 	if (!(trigger = sr_session_trigger_get(sdi->session)))
-                return SR_OK;
+		return SR_OK;
 	for (l = trigger->stages; l; l = l->next) {
-                stage = l->data;
-                for (m = stage->matches; m; m = m->next) {
-                        match = m->data;
+		stage = l->data;
+		for (m = stage->matches; m; m = m->next) {
+			match = m->data;
 			if (!match->channel->enabled)
 				/* Ignore disabled channels with a trigger. */
 				continue;

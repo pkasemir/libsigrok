@@ -511,7 +511,7 @@ static int config_set(uint32_t key, GVariant *data,
 		if (!cg_is_digital(cg))
 			return SR_ERR_ARG;
 		if ((idx = std_str_idx(data, ARRAY_AND_SIZE(logic_thresholds))) < 0)
-                        return SR_ERR_ARG;
+			return SR_ERR_ARG;
 		devc->logic_threshold = idx;
 		mso_update_logic_threshold_value(devc);
 		break;
